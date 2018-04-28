@@ -9,9 +9,15 @@ public class App {
 		pojo.foo1 = "f1";
 		pojo.foo2 = "f2";
 
-		Map<String, String > map = Stream.of(pojo.getClass()
-				.getFields())
-				.collect(Collectors.toMap(Field::getName, Field::getName));
+		Map<String, String > map = Stream.of(pojo.getClass().getFields())
+				.collect(Collectors.toMap(Field::getName, (field) ->   {
+				    try {
+				        return (String) field.get(pojo);
+                    } catch (IllegalAccessException e) {
+				        // log, either throw or this
+                        return "";
+                    }
+                }));
 
 		System.out.println(pojo.getClass().getField("foo1").get(pojo));
 		System.out.println(map);

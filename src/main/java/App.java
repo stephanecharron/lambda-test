@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class App {
-	public static void main (String [] args){
+	public static void main (String [] args) throws NoSuchFieldException, IllegalAccessException {
 		Pojo pojo = new Pojo();
 		pojo.foo1 = "f1";
 		pojo.foo2 = "f2";
@@ -13,7 +13,8 @@ public class App {
 				.getFields())
 				.collect(Collectors.toMap(Field::getName, Field::getName));
 
-		System.out.print(map);
+		System.out.println(pojo.getClass().getField("foo1").get(pojo));
+		System.out.println(map);
 
 	}
 }
